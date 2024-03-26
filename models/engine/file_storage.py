@@ -60,7 +60,7 @@ class FileStorage:
         """Method that deletes obj from __objects"""
         if obj is None:
             return
-
+        
         key = obj.__class__.__name__ + '.' + str(obj.id)
 
         if key in self.__objects:
