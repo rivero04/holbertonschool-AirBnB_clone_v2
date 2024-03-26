@@ -25,37 +25,27 @@ class DBStorage:
         Base.metadata.create_all(self.__engine)
         session_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
         self.__session = session_factory()
-
+        
     def all(self, cls=None):
-        """ Query on current db session """
-        from models.base_model import BaseModel, Base
-        from models.amenity import Amenity
-        from models.city import City
-        from models.place import Place
-        from models.review import Review
-        from models.state import State
-        from models.user import User
+        """
+        Query on the current database session (self.__session)
+        Retrieve all objects depending on the class name
+        """
+        object_dict = {}
         
-        classes = {'City': City, 'State': State,
-                     'User': User, 'Place': Place,
-                     'Review': Review, 'Amenity': Amenity}
-        
-        objects = {}
-        
-        session = self.__session
         if cls is None:
-            for name_class in classes:
-                data = session.query(classes[name_class]).all()
-                for obj in data:
-                    objects["{}.{}".format(obj.__class__.__name__,
-                                           obj.id)] = obj
+            for class_key in self.all_classes:
+                class_obj = eval(class_key)
+                for instance in self.__session.query(class_obj).all():
+                    instance_key = f"{instance.__class__.__name__}.{instance.id}"
+                    object_dict[instance_key] = instance
         else:
-            if isinstance(cls, str):
-                cls = classes[cls]
-            data = self.__session.query(cls).all()
-            for obj in data:
-                objects["{}".format(obj.id)] = obj
-        return objects
+            for instance in self.__session.query(cls).all():
+                instance_key = f"{instance.__class__.__name__}.{instance.id}"
+                object_dict[instance_key] = instance
+
+        return object_dict
+
 
     def new(self, obj):
         """ Add an object to the current database session """
