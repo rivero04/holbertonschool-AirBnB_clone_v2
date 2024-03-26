@@ -5,6 +5,7 @@ from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 from models.base_model import BaseModel, Base
 
+
 class State(BaseModel, Base):
     """Representation of state """
     if models.storage_type == "db":

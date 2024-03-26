@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-"""This module instantiates an object of class FileStorage or DBStorage based on HBNB_TYPE_STORAGE environment variable"""
+"""This module instantiates an object of class
+FileStorage or DBStorage based on HBNB_TYPE_STORAGE environment variable"""
 import os
 
 

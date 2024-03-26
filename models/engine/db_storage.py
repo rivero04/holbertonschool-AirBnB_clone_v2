@@ -17,27 +17,29 @@ class DBStorage:
         pwd = os.getenv('HBNB_MYSQL_PWD', 'hbnb_dev_db')
         host = os.getenv('HBNB_MYSQL_HOST', 'localhost')
         db = os.getenv('HBNB_MYSQL_DB', 'hbnb_dev')
-        self.__engine = create_engine(f'mysql+mysqldb://{user}:{pwd}@{host}/{db}',
-                                      pool_pre_ping=True)
+        self.__engine = create_engine(f'mysql+mysqldb://{user}:{pwd} \
+                                      @{host}/{db}', pool_pre_ping=True)
 
         if os.getenv('HBNB_ENV') == 'test':
             Base.metadata.drop_all(self.__engine)
         Base.metadata.create_all(self.__engine)
-        session_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        session_factory = sessionmaker(bind=self.__engine,
+                                       expire_on_commit=False)
         self.__session = session_factory()
-        
+
     def all(self, cls=None):
         """
         Query on the current database session (self.__session)
         Retrieve all objects depending on the class name
         """
         object_dict = {}
-        
+
         if cls is None:
             for class_key in self.all_classes:
                 class_obj = eval(class_key)
                 for instance in self.__session.query(class_obj).all():
-                    instance_key = f"{instance.__class__.__name__}.{instance.id}"
+                    instance_key = f"{instance.__class__.__name__}.
+                    {instance.id}"
                     object_dict[instance_key] = instance
         else:
             for instance in self.__session.query(cls).all():
@@ -45,7 +47,6 @@ class DBStorage:
                 object_dict[instance_key] = instance
 
         return object_dict
-
 
     def new(self, obj):
         """ Add an object to the current database session """
@@ -61,7 +62,9 @@ class DBStorage:
             self.__session.delete(obj)
 
     def reload(self):
-        """ Create all tables in the database and create the current database session """
+        """ Create all tables in the database
+        and create the current database session
+         """
         from models.base_model import BaseModel
         from models.user import User
         from models.place import Place
@@ -70,5 +73,6 @@ class DBStorage:
         from models.amenity import Amenity
         from models.review import Review
         Base.metadata.create_all(self.__engine)
-        session_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        session_factory = sessionmaker(bind=self.__engine,
+                                       expire_on_commit=False)
         self.__session = session_factory()
