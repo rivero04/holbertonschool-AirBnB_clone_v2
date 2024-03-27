@@ -126,6 +126,7 @@ class HBNBCommand(cmd.Cmd):
 
         attributes = {}
         for key_value in arg_list[1:]:
+            print(key_value)
             key, value = key_value.split("=")
             value = value.replace('_', ' ')
             attributes[key] = value.strip('"\'')
