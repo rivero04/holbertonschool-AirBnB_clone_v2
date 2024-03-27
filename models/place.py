@@ -25,8 +25,10 @@ class Place(BaseModel, Base):
     price_by_night = Column(Integer, nullable=False, default=0)
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
-    reviews = relationship('Review', backref='place', cascade="delete")
-    amenities = relationship("Amenity", secondary=place_amenity, backref="places", viewonly=False)
+    reviews = relationship("Review", backref="place", cascade="delete")
+    amenities = relationship("Amenity", secondary="place_amenity", viewonly=False)
+
+    ids_amenity = []
 
     if getenv("HBNB_TYPE_STORAGE", None) != "db":
         @property
@@ -42,7 +44,7 @@ class Place(BaseModel, Base):
         def amenities(self):
             new_dict = []
             for amenity in Amenity.all():
-                if amenity.id in self.amenity_ids:
+                if amenity.id in self.ids_amenity:
                     new_dict.append(amenity)
             return new_dict
         
@@ -50,4 +52,4 @@ class Place(BaseModel, Base):
         def amenities(self, value):
             """Setter for amenities"""
             if isinstance(value, Amenity):
-                self.amenity_ids.append(value.id)
+                self.ids_amenity.append(value.id)
