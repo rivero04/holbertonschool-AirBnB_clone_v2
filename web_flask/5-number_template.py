@@ -32,7 +32,8 @@ def python_text(text):
     """Route that displays "Python "
     followed by the value of the text variable,
     replacing underscores with spaces."""
-    return 'Python {:s}'.format(text.replace('_', ' '), strict_slashes=False)
+    text = text.replace("_", " ")
+    return f"Python {text}"
 
 
 @app.route('/number/<int:n>', strict_slashes=False)
