@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+""" Flask """
 
 from flask import Flask, render_template
 
@@ -51,11 +52,14 @@ def number_template(n):
     """ Displays an html page """
     return render_template('5-number.html', n=n)
 
+
 @app.route('/number_odd_or_even/<int:n>', strict_slashes=False)
 def number_odd_or_even(n):
-    """Route that displays a HTML page with "Number: n is even|odd" if n is an integer."""
+    """Route that displays a HTML page with
+    "Number: n is even|odd" if n is an integer."""
     status = "even" if n % 2 == 0 else "odd"
     return render_template('6-number_odd_or_even.html', n=n, status=status)
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

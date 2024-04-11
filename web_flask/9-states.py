@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+""" Flask """
 
 from flask import Flask, render_template
 from models import storage
@@ -24,11 +25,12 @@ def list_states(id=None):
     return render_template('9-states.html', states=state_info, id=id)
     return render_template('9-states.html', state=id)
 
+
 @app.teardown_appcontext
 def close_session(exception=None):
-    """ """
+    """Close storage session."""
     storage.close()
-    
-    
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

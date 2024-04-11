@@ -1,15 +1,12 @@
 #!/usr/bin/python3
+""" Flask """
+
 from flask import Flask, render_template
 from models import storage
 from models.state import State
 from models.amenity import Amenity
 
 app = Flask(__name__)
-
-
-@app.teardown_appcontext
-def teardown_data(self):
-    storage.close()
 
 
 @app.route('/hbnb_filters', strict_slashes=False)
@@ -27,6 +24,12 @@ def filter(id=None):
 
     return render_template('10-hbnb_filters.html', states=states,
                            amenities=amenities)
+
+
+@app.teardown_appcontext
+def teardown_data(self):
+    """Close storage session."""
+    storage.close()
 
 
 if __name__ == "__main__":

@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+""" Flask """
 
 from flask import Flask, render_template
 from models import storage
@@ -16,9 +17,9 @@ def states_list():
 
 @app.teardown_appcontext
 def close_session(exception=None):
-    """ """
+    """Close storage session."""
     storage.close()
-    
-    
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
