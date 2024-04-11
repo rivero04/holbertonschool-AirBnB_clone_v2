@@ -25,7 +25,7 @@ def c_text(text):
     text = text.replace('_', ' ')
     return f"C {text}"
 
-
+@app.route('/python/', defaults={'text': 'is cool'}, strict_slashes=False)
 @app.route('/python/<text>', strict_slashes=False)
 def python_text(text):
     """Route that displays "Python "
@@ -33,12 +33,6 @@ def python_text(text):
     replacing underscores with spaces."""
     text = text.replace("_", " ")
     return f"Python {text}"
-
-
-@app.route('/python/', strict_slashes=False)
-def python_cool():
-    """Route that displays "Python is cool"."""
-    return "Python is cool"
 
 
 @app.route('/number/<int:n>', strict_slashes=False)
