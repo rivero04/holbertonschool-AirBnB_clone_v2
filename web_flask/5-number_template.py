@@ -33,7 +33,7 @@ def python_text(text):
     followed by the value of the text variable,
     replacing underscores with spaces."""
     text = text.replace("_", " ")
-    return f"Python {text}"
+     return 'Python {:s}'.format(text, strict_slashes=False)
 
 
 @app.route('/number/<int:n>', strict_slashes=False)
