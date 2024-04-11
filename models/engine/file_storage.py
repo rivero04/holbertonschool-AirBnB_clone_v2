@@ -66,3 +66,7 @@ class FileStorage:
 
         if key in self.__objects:
             del self.__objects[key]
+            
+    def close(self):
+        """Closes the storage by reloading the data from the file"""
+        self.reload()
